@@ -18,7 +18,7 @@ import org.kevoree.modeling.util.maths.structure.matrix.MatrixOperations;
  * Created by assaad on 02/09/15.
  */
 public class LUTest {
-    public static int r=100;
+    public static int r=1000;
     public static KBlas java = new JavaBlas();
     public static KBlas netlib = new NetlibBlas();
 

@@ -15,7 +15,7 @@ import java.util.Random;
 /**
  * Created by assaa_000 on 29/08/2015.
  */
-public class TestMatrix {
+public class MultiplyMatrix {
 
     private void traditional(KArray2D matA, KArray2D matB, KArray2D matC, double alpha, double beta) {
         for (int i = 0; i < matC.rows(); i++) {

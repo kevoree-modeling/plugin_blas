@@ -13,10 +13,10 @@ import org.kevoree.modeling.util.maths.structure.matrix.MatrixOperations;
 /**
  * Created by assaad on 04/09/15.
  */
-public class TestSolver {
+public class SolverTest {
     @Test
     public void solve(){
-        double eps=1e-5;
+        double eps=1e-7;
         int dim=200;
         int dim2=100;
         KArray2D matA= MatrixOperations.random(dim,dim);
@@ -29,12 +29,12 @@ public class TestSolver {
         timestart=System.currentTimeMillis();
         KArray2D matXnetlib=MatrixOperations.solve(matA,matB,false, KBlasTransposeType.NOTRANSPOSE,netblas);
         timeend=System.currentTimeMillis();
-        System.out.println("Netlib invert " + ((double) (timeend - timestart)) / 1000+" s");
+        System.out.println("Netlib solving " + ((double) (timeend - timestart)) / 1000+" s");
 
         timestart=System.currentTimeMillis();
         KArray2D matXjava=MatrixOperations.solve(matA,matB,false, KBlasTransposeType.NOTRANSPOSE,javaBlas);
         timeend=System.currentTimeMillis();
-        System.out.println("Java invert " + ((double) (timeend - timestart)) / 1000+" s");
+        System.out.println("Java solving " + ((double) (timeend - timestart)) / 1000+" s");
 
     /*    timestart=System.currentTimeMillis();
         KArray2D matXCuda=MatrixOperations.solve(matA,matB,false, KBlasTransposeType.NOTRANSPOSE,jcuda);
@@ -47,27 +47,16 @@ public class TestSolver {
         KArray2D matCjava= MatrixOperations.multiply(matA,matXjava,javaBlas);
      //   KArray2D matCcuda =  MatrixOperations.multiply(matA,matXCuda,jcuda);
 
-        boolean test=true;
-        int count=0;
-        for (int i = 0; i < matCjava.rows(); i++) {
-            for (int j = 0; j < matCjava.columns(); j++) {
-                if(Math.abs(matCjava.get(i, j)-matB.get(i, j))> eps){
-                    test =false;
-                    count++;
-                }
 
-                if(Math.abs(matCnetlib.get(i, j)-matB.get(i, j))> eps){
-                    test =false;
-                    count++;
-                }
 
-         /*       if(Math.abs(matCcuda.get(i, j)-matB.get(i, j))> eps){
-                    test =false;
-                    count++;
-                }*/
-            }
-        }
-        System.out.println("Error counts: "+count);
-        Assert.assertTrue(test);
+        double errJava=MatrixOperations.compareMatrix(matCjava, matB);
+        double errNetlib=MatrixOperations.compareMatrix(matCnetlib, matB);
+
+        Assert.assertTrue(errJava<eps);
+        Assert.assertTrue(errNetlib<eps);
+
+        System.out.println("Error in Java: "+errJava);
+        System.out.println("Error in Netlib: "+errNetlib);
+
     }
 }

@@ -5,11 +5,11 @@
 
     <groupId>org.kevoree.modeling.plugin</groupId>
     <artifactId>rest</artifactId>
-    <version>4.27.0-SNAPSHOT</version>
+    <version>4.27.1-SNAPSHOT</version>
     <name>KMF :: Plugin :: Blas</name>
 
     <properties>
-        <kmf.version>4.26.1-SNAPSHOT</kmf.version>
+        <kmf.version>4.27.1-SNAPSHOT</kmf.version>
         <nd4j.version>0.4-rc1.1</nd4j.version>
         <jcuda.version>0.7.0a</jcuda.version>
     </properties>
@@ -24,7 +24,7 @@
     <dependencies>
         <dependency>
             <groupId>org.kevoree.modeling</groupId>
-            <artifactId>org.kevoree.modeling.microframework</artifactId>
+            <artifactId>microframework</artifactId>
             <version>${kmf.version}</version>
         </dependency>
         <dependency>

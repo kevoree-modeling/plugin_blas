@@ -18,7 +18,7 @@ import org.kevoree.modeling.util.maths.structure.matrix.MatrixOperations;
 public class MatrixInvertTest {
     @Test
     public void invertMatrix() {
-        int r = 200;
+        int r = 1000;
         int times=1;
         int[] dimA = {r, r};
         boolean rand = true;
@@ -64,7 +64,7 @@ public class MatrixInvertTest {
             resnJ = MatrixOperations.invert(matA, f2JBlas);
         }
         timeend = System.currentTimeMillis();
-        System.out.println("Netlib JavaClass blas invert " + ((double) (timeend - timestart)) / (1000*times)+" s");
+        System.out.println("N2J blas invert " + ((double) (timeend - timestart)) / (1000*times)+" s");
 
     /*    timestart = System.currentTimeMillis();
         for(int k=0;k<times;k++) {

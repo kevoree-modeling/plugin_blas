@@ -1,5 +1,6 @@
 package test;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.kevoree.modeling.blas.F2JBlas;
 import org.kevoree.modeling.blas.NetlibBlas;
@@ -46,8 +47,12 @@ public class QRTest {
 
         double err1=MatrixOperations.compareMatrix(Qjava, Qnetlib);
         double err2=MatrixOperations.compareMatrix(Rjava, Rnetlib);
-                System.out.println(err1);
-        System.out.println(err2);
+
+        Assert.assertTrue(err1<eps);
+        Assert.assertTrue(err2<eps);
+
+        System.out.println("Error in Q: "+err1);
+        System.out.println("Error in R: "+err2);
 
         int x=5;
     }

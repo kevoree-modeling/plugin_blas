@@ -15,15 +15,7 @@ public class NetlibBlasDebug implements KBlas {
     private static LAPACK lapackJava;
 
     public NetlibBlasDebug(){
-        try{
-            blas=BLAS.getInstance();
-            lapack=LAPACK.getInstance();
-            blasJava=(BLAS)load("com.github.fommil.netlib.F2jBLAS");
-            lapackJava=(LAPACK)load("com.github.fommil.netlib.F2jLAPACK");
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
-        }
+
     }
 
 
@@ -73,7 +65,20 @@ public class NetlibBlasDebug implements KBlas {
     }
 
     @Override
-    public void shutdown() {
+    public void connect() {
+        try{
+            blas=BLAS.getInstance();
+            lapack=LAPACK.getInstance();
+            blasJava=(BLAS)load("com.github.fommil.netlib.F2jBLAS");
+            lapackJava=(LAPACK)load("com.github.fommil.netlib.F2jLAPACK");
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public void disconnect() {
 
     }
 

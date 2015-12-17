@@ -11,8 +11,6 @@ public class NetlibBlas implements KBlas {
 
 
     public NetlibBlas() {
-        blas = BLAS.getInstance();
-        lapack=LAPACK.getInstance();
     }
 
     @Override
@@ -58,7 +56,13 @@ public class NetlibBlas implements KBlas {
     }
 
     @Override
-    public void shutdown() {
+    public void connect() {
+        blas = BLAS.getInstance();
+        lapack=LAPACK.getInstance();
+    }
+
+    @Override
+    public void disconnect() {
         blas = null;
     }
 

@@ -48,8 +48,10 @@ public class MultiplyMatrix {
 
         KBlas javaBlas = new JavaBlas();
         KBlas netlibBlas = new NetlibBlas();
-    //    KBlas jcuda = new JCudaBlas();
-   //     KBlas jCudaBlas = new JCudaBlas();
+        javaBlas.connect();
+        netlibBlas.connect();
+        //    KBlas jcuda = new JCudaBlas();
+        //     KBlas jCudaBlas = new JCudaBlas();
 
         int r = 400;
         int[] dimA = {r, r + 1};
@@ -69,11 +71,11 @@ public class MultiplyMatrix {
         NativeArray2D matOriginal = new NativeArray2D(matA.rows(), matB.columns());
         initMatrice(matOriginal, rand);
 
-       // KArray2D matTrad = matOriginal.clone();
+        // KArray2D matTrad = matOriginal.clone();
         KArray2D matNetlib = matOriginal.clone();
         KArray2D matJava = matOriginal.clone();
         KArray2D matCuda = matOriginal.clone();
-     //   KArray2D matCuda = matOriginal.clone();
+        //   KArray2D matCuda = matOriginal.clone();
 
         System.out.println("Data generated");
         long timestart, timeend;
@@ -83,14 +85,14 @@ public class MultiplyMatrix {
         timeend=System.currentTimeMillis();
         System.out.println("For loop " + ((double) (timeend - timestart)) / 1000);*/
 
-        timestart=System.currentTimeMillis();
+        timestart = System.currentTimeMillis();
         MatrixOperations.multiplyAlphaBetaResult(alpha, matA, matB, beta, matJava, javaBlas);
-        timeend=System.currentTimeMillis();
+        timeend = System.currentTimeMillis();
         System.out.println("Java blas " + ((double) (timeend - timestart)) / 1000);
 
-        timestart=System.currentTimeMillis();
+        timestart = System.currentTimeMillis();
         MatrixOperations.multiplyAlphaBetaResult(alpha, matA, matB, beta, matNetlib, netlibBlas);
-        timeend=System.currentTimeMillis();
+        timeend = System.currentTimeMillis();
         System.out.println("Netlib Blas " + ((double) (timeend - timestart)) / 1000);
 
      /*   timestart=System.currentTimeMillis();
@@ -99,18 +101,17 @@ public class MultiplyMatrix {
         System.out.println("Cuda Blas " + ((double) (timeend - timestart)) / 1000);*/
 
 
-
         for (int i = 0; i < matOriginal.rows(); i++) {
             for (int j = 0; j < matOriginal.columns(); j++) {
                 Assert.assertEquals(matNetlib.get(i, j), matJava.get(i, j), eps);
                 //Assert.assertEquals(matTrad.get(i, j), matNetlib.get(i, j), eps);
-         //       Assert.assertEquals(matNetlib.get(i, j), matCuda.get(i, j), eps);
+                //       Assert.assertEquals(matNetlib.get(i, j), matCuda.get(i, j), eps);
             }
         }
 
-        javaBlas.shutdown();
-        netlibBlas.shutdown();
-       // jcuda.shutdown();
+        javaBlas.disconnect();
+        netlibBlas.disconnect();
+        // jcuda.shutdown();
         System.out.println("Test succeeded");
     }
 }

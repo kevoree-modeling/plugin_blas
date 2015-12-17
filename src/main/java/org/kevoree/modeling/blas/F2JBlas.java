@@ -16,13 +16,7 @@ public class F2JBlas implements KBlas {
 
 
     public F2JBlas(){
-        try{
-            blas=(BLAS) load("com.github.fommil.netlib.F2jBLAS");
-            lapack=(LAPACK) load("com.github.fommil.netlib.F2jLAPACK");
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
-        }
+
     }
 
     private static Object load(String className) throws Exception {
@@ -70,8 +64,20 @@ public class F2JBlas implements KBlas {
         lapack.dgeqrf(paramInt1, paramInt2, paramArrayOfDouble1, paramInt3, paramInt4, paramArrayOfDouble2, paramInt5, paramArrayOfDouble3, paramInt6, paramInt7, newint);
         paramintW[0]=newint.val;
     }
+
     @Override
-    public void shutdown() {
+    public void connect() {
+        try{
+            blas=(BLAS) load("com.github.fommil.netlib.F2jBLAS");
+            lapack=(LAPACK) load("com.github.fommil.netlib.F2jLAPACK");
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public void disconnect() {
         blas = null;
     }
 

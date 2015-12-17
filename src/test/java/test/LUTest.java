@@ -3,10 +3,10 @@ package test;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kevoree.modeling.blas.NetlibBlas;
-import org.kevoree.modeling.util.maths.matrix.CommonOps;
+/*import org.kevoree.modeling.util.maths.matrix.CommonOps;
 import org.kevoree.modeling.util.maths.matrix.DenseMatrix64F;
 import org.kevoree.modeling.util.maths.matrix.SimpleMatrix;
-import org.kevoree.modeling.util.maths.matrix.solvers.LUDecompositionAlt_D64;
+import org.kevoree.modeling.util.maths.matrix.solvers.LUDecompositionAlt_D64;*/
 import org.kevoree.modeling.util.maths.structure.KArray2D;
 import org.kevoree.modeling.util.maths.structure.blas.KBlas;
 import org.kevoree.modeling.util.maths.structure.blas.impl.JavaBlas;
@@ -18,59 +18,60 @@ import org.kevoree.modeling.util.maths.structure.matrix.MatrixOperations;
  * Created by assaad on 02/09/15.
  */
 public class LUTest {
-    public static int r=1000;
-    public static KBlas java = new JavaBlas();
-    public static KBlas netlib = new NetlibBlas();
+    public static int r = 1000;
+
 
     @Test
-    public void testLUFactorize(){
+    public void testLUFactorize() {
+        KBlas java = new JavaBlas();
+        KBlas netlib = new NetlibBlas();
+        java.connect();
+        netlib.connect();
+
+
         int[] dimA = {r, r};
 
-        boolean rand=true;
-        double eps=1e-7;
+        boolean rand = true;
+        double eps = 1e-7;
 
         NativeArray2D matA = new NativeArray2D(dimA[0], dimA[1]);
         MatrixOperations.initMatrice(matA, rand);
 
 
+        //    DenseMatrix64F ejmlmatA = new DenseMatrix64F(dimA[0],dimA[1]);
+        //    CommonOps.copyMatrixDense(matA, ejmlmatA);
 
 
-        DenseMatrix64F ejmlmatA = new DenseMatrix64F(dimA[0],dimA[1]);
-        CommonOps.copyMatrixDense(matA, ejmlmatA);
-
-
-
-        LU dlu = new LU(dimA[0],dimA[1]);
+        LU dlu = new LU(dimA[0], dimA[1]);
 
         System.out.println("Init done");
 
-        long timestart,timeend;
+        long timestart, timeend;
 
-        timestart=System.currentTimeMillis();
+        timestart = System.currentTimeMillis();
         dlu.factor(matA, netlib);
-        KArray2D res= dlu.getLU();
-        timeend=System.currentTimeMillis();
-        System.out.println("Netlib Factorizarion " + ((double) (timeend - timestart)) / 1000+" s");
+        KArray2D res = dlu.getLU();
+        timeend = System.currentTimeMillis();
+        System.out.println("Netlib Factorizarion " + ((double) (timeend - timestart)) / 1000 + " s");
 
 
+        LU dlu2 = new LU(dimA[0], dimA[1]);
 
-        LU dlu2 = new LU(dimA[0],dimA[1]);
-
-        timestart=System.currentTimeMillis();
+        timestart = System.currentTimeMillis();
         dlu2.factor(matA, java);
-        KArray2D res2= dlu.getLU();
-        timeend=System.currentTimeMillis();
-        System.out.println("Java Factorizarion " + ((double) (timeend - timestart)) / 1000+" s");
+        KArray2D res2 = dlu.getLU();
+        timeend = System.currentTimeMillis();
+        System.out.println("Java Factorizarion " + ((double) (timeend - timestart)) / 1000 + " s");
 
 
 
 
-        LUDecompositionAlt_D64 ludec = new LUDecompositionAlt_D64();
+    /*    LUDecompositionAlt_D64 ludec = new LUDecompositionAlt_D64();
         timestart=System.currentTimeMillis();
         ludec.decompose(ejmlmatA);
         DenseMatrix64F luejml = ludec.getLU();
         timeend=System.currentTimeMillis();
-        System.out.println("EJML Factorizarion " + ((double) (timeend - timestart)) / 1000+" s");
+        System.out.println("EJML Factorizarion " + ((double) (timeend - timestart)) / 1000+" s");*/
 
 
         assert res != null;
@@ -83,6 +84,8 @@ public class LUTest {
         }
 
         System.out.println("done");
+        java.disconnect();
+        netlib.disconnect();
     }
 
 

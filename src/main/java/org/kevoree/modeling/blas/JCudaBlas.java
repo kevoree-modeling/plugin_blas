@@ -28,16 +28,7 @@ public class JCudaBlas implements KBlas {
    // private jcuda.jcusolver.cusolverDnHandle cuHandle;
 
     public JCudaBlas() {
-        JCublas.initialize();
-        JCublas2.initialize();
-        JCublas.setExceptionsEnabled(true);
-        JCublas2.setExceptionsEnabled(true);
-        handle = new cublasHandle();
-        cublasCreate(handle);
-        jcuda.jcusolver.JCusolver.initialize();
 
-      // cuHandle = new cusolverDnHandle();
-        //cusolverDnCreate(cuHandle);
 
     }
 
@@ -223,7 +214,21 @@ public class JCudaBlas implements KBlas {
     }
 
     @Override
-      public void shutdown() {
+    public void connect() {
+        JCublas.initialize();
+        JCublas2.initialize();
+        JCublas.setExceptionsEnabled(true);
+        JCublas2.setExceptionsEnabled(true);
+        handle = new cublasHandle();
+        cublasCreate(handle);
+        jcuda.jcusolver.JCusolver.initialize();
+
+        // cuHandle = new cusolverDnHandle();
+        //cusolverDnCreate(cuHandle);
+    }
+
+    @Override
+      public void disconnect() {
 
         cublasDestroy(handle);
     }
